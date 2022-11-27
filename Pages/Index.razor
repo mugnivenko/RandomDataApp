@@ -1,0 +1,73 @@
+﻿@page "/"
+
+<MudSelect Class="mb-4" Dense="true" T="string" Label="Region" Variant="Variant.Outlined" ValueChanged="OnRegionChange">
+    <MudSelectItem Value="@Region.USA" />
+    <MudSelectItem Value="@Region.Spain" />
+    <MudSelectItem Value="@Region.Sweden" />
+</MudSelect>
+
+<div class="d-flex gap-8 align-center mb-4">
+    <MudSlider
+        class="w-50"
+        T="double"
+        TickMarks="true"
+        Min="0"
+        Max="10"
+        Step="0.25"
+        Value="ErrorsCount"
+        ValueChanged="ErrorsCountRangeChanged"
+    />
+    <MudNumericField
+        T="double"
+        Value="ErrorsCount"
+        Label="Number of error per record"
+        Variant="Variant.Outlined"
+        Min="0.0"
+        Max="1000.0"
+        ValueChanged="ErrorsCountInputChanged"
+        DebounceInterval="500"
+    />
+</div>
+
+<div class="d-flex gap-8 align-center mb-8">
+    <MudNumericField
+        T="int"
+        Value="Seed"
+        Label="Seed"
+        Variant="Variant.Outlined"
+        ValueChanged="SeedValueChanged"
+        DebounceInterval="500"
+    />
+    <MudButton Variant="Variant.Filled" OnClick="OnRandomClick">Random</MudButton>
+</div>
+
+<div id="unique_id_scroll_section" class="data-table overflow-auto">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Identifier</th>
+                <th scope="col">Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Users)
+            {
+                <tr>
+                    <th scope="row">@user.Number</th>
+                    <th scope="row">@user.Id</th>
+                    <th scope="row">@user.FullName</th>
+                    <th scope="row">@user.Address</th>
+                    <th scope="row">@user.Phone</th>
+                </tr>
+                <MudScrollToTop OnScroll="OnScroll" Selector="#unique_id_scroll_section" />
+            }  
+        </tbody>      
+    </table>
+</div>
+
+<div class="d-flex align-center mt-8">
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" Disabled="@UsersEmpty" OnClick="ExportToCSV">Export to CSV</MudButton>
+</div>
