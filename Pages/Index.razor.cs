@@ -115,7 +115,7 @@ namespace RandomDataApp.Pages
 
         private Uri BuildRequestUri()
         {
-            var uriBuilder = new UriBuilder($"{httpClient.BaseAddress}RandomData");
+            var uriBuilder = new UriBuilder($"{httpClient.BaseAddress}api/RandomData");
             var addedParams = AddParams(uriBuilder.Query);
             uriBuilder.Query = addedParams.ToString();
             return uriBuilder.Uri;
@@ -128,7 +128,6 @@ namespace RandomDataApp.Pages
                 Snackbar.Add("Please select the region to get the values", Severity.Info);
                 return;
             }
-            await JS.InvokeVoidAsync("console.log", $"++++++++++ {Loading} {Page}");
             await SetRandomData();
         }
         public async Task<List<RandomUserData>> GetRandomData()
@@ -167,7 +166,7 @@ namespace RandomDataApp.Pages
 
         private async Task ExportToCSV(MouseEventArgs args)
         {
-            var response = await httpClient.PostAsJsonAsync($"{httpClient.BaseAddress}RandomData/ExportToCSV", Users);
+            var response = await httpClient.PostAsJsonAsync($"{httpClient.BaseAddress}api/RandomData/ExportToCSV", Users);
             if (response.IsSuccessStatusCode)
             {
                 var data = await response.Content.ReadAsByteArrayAsync();
